@@ -1,5 +1,6 @@
 const xlsx = require("node-xlsx").default;
 const fs = require("fs");
+const { escribir } = require("./helper");
 const helper = require("./helper");
 
 // Parse a buffer
@@ -335,6 +336,26 @@ Izzi !== []
 	: false;
 
 // Se refina el array Spots para que quede con su propiedades adecuadas se exporta para seguir en el próximo archivo -> scheduler.js
+
+const offset = parseInt(fs.readFileSync("./offset.txt", "utf-8"));
+
+// Se agrega la posibilidad de offset los horarios de inserción según el archivo Offset.txt
+
+Spots.forEach((spot) => {
+	spot.Hora = spot.Hora + offset;
+	if (spot.Hora < 0) {
+		while (spot.Hora < 0) {
+			const diff = 0 - spot.Hora;
+			spot.Hora = 24 - diff;
+		}
+	}
+	if (spot.Hora > 23) {
+		while (spot.Hora > 23) {
+			const diff = spot.Hora - 23;
+			spot.Hora = -1 + diff;
+		}
+	}
+});
 
 // Se crea un objeto importado, con el resultado exitoso de la importación de los Spots y los Izzi.
 

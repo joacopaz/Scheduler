@@ -1,5 +1,5 @@
 const FS = require("fs");
-// Build pkg chequer.js --targets node16-win-x64
+// Command to build exe: pkg chequer.js --targets node16-win-x64
 
 const jsonHelper = {
 	fileName: "Orden",
